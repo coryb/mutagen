@@ -793,7 +793,7 @@ func (t *transitioner) createSymbolicLink(parent *filesystem.Directory, name, pa
 // will be returned.
 func (t *transitioner) createDirectory(parent *filesystem.Directory, name, path string, target *Entry) *Entry {
 	// Attempt to create the directory.
-	if err := parent.CreateDirectory(name); err != nil {
+	if err := parent.CreateDirectory(name); err != nil && !os.IsExist(err) {
 		t.recordProblem(path, fmt.Errorf("unable to create directory: %w", err))
 		return nil
 	}
