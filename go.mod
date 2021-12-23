@@ -6,6 +6,7 @@ require (
 	github.com/Microsoft/go-winio v0.5.0
 	github.com/bmatcuk/doublestar/v4 v4.0.2
 	github.com/compose-spec/compose-go v0.0.0-20210322090015-6166d06f9ce2
+	github.com/docker/docker v20.10.3-0.20211126182219-55da5245ded6+incompatible
 	github.com/dustin/go-humanize v1.0.0
 	github.com/eknkc/basex v1.0.1
 	github.com/fatih/color v1.12.0
@@ -36,6 +37,7 @@ require (
 	github.com/google/go-cmp v0.5.5 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/mattn/go-colorable v0.1.8 // indirect
+	github.com/sirupsen/logrus v1.8.1 // indirect
 	golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1 // indirect
 	google.golang.org/genproto v0.0.0-20210820002220-43fce44e7af1 // indirect
 )

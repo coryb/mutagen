@@ -7,12 +7,13 @@
 package synchronization
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	behavior "github.com/mutagen-io/mutagen/pkg/filesystem/behavior"
 	core "github.com/mutagen-io/mutagen/pkg/synchronization/core"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -63,6 +64,8 @@ type Configuration struct {
 	DefaultIgnores []string `protobuf:"bytes,31,rep,name=defaultIgnores,proto3" json:"defaultIgnores,omitempty"`
 	// Ignores specifies the ignore patterns brought in from the create request.
 	Ignores []string `protobuf:"bytes,32,rep,name=ignores,proto3" json:"ignores,omitempty"`
+	// IgnorerMode specifies the mode of the ignores used during scan.
+	IgnorerMode core.IgnorerMode
 	// IgnoreVCSMode specifies the VCS ignore mode that should be used in
 	// synchronization.
 	IgnoreVCSMode core.IgnoreVCSMode `protobuf:"varint,33,opt,name=ignoreVCSMode,proto3,enum=core.IgnoreVCSMode" json:"ignoreVCSMode,omitempty"`
