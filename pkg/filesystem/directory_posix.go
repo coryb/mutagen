@@ -395,8 +395,9 @@ func (d *Directory) OpenFile(name string) (io.ReadSeekCloser, error) {
 		return nil, err
 	}
 
+	fd := int32(descriptor)
 	// Convert the file descriptor to a usable type.
-	return file(descriptor), err
+	return (*file)(&fd), err
 }
 
 // readlinkInitialBufferSize specifies the initial buffer size to use for

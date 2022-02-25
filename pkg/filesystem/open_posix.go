@@ -80,7 +80,8 @@ func Open(path string, allowSymbolicLinkLeaf bool) (io.Closer, *Metadata, error)
 			file:       os.NewFile(uintptr(descriptor), path),
 		}, metadata, nil
 	case ModeTypeFile:
-		return file(descriptor), metadata, nil
+		fd := int32(descriptor)
+		return (*file)(&fd), metadata, nil
 	default:
 		closeConsideringEINTR(descriptor)
 		return nil, nil, ErrUnsupportedOpenType
