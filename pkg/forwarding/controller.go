@@ -629,10 +629,6 @@ func (c *controller) run(ctx context.Context, source, destination Endpoint) {
 			<-forwardingErrors
 		}
 
-		// Nil out endpoints to update our state.
-		source = nil
-		destination = nil
-
 		// Reset the forwarding state, but propagate the error that caused
 		// failure.
 		c.stateLock.Lock()

@@ -69,6 +69,7 @@ func (e *dialerEndpoint) Open() (net.Conn, error) {
 func (e *dialerEndpoint) Shutdown() error {
 	// Cancel the dialing context to unblock any dialing operations.
 	e.dialingCancel()
+	e.dialingContext, e.dialingCancel = context.WithCancel(context.Background())
 
 	// Success.
 	return nil

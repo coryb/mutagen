@@ -22,6 +22,10 @@ type client struct {
 	// listener indicates whether or not the remote endpoint is operating as a
 	// listener.
 	listener bool
+	// openCtx is the context used by Open.
+	openCtx context.Context
+	// cancelOpen interrupts any running Open calls.
+	cancelOpen func()
 }
 
 // NewEndpoint creates a new remote forwarding.Endpoint operating over the
@@ -93,11 +97,15 @@ func NewEndpoint(
 		}
 	}()
 
+	openCtx, cancelOpen := context.WithCancel(context.Background())
+
 	// Success.
 	return &client{
 		transportErrors: transportErrors,
 		multiplexer:     multiplexer,
 		listener:        source,
+		openCtx:         openCtx,
+		cancelOpen:      cancelOpen,
 	}, nil
 }
 
@@ -109,14 +117,16 @@ func (c *client) TransportErrors() <-chan error {
 // Open implements forwarding.Endpoint.Open.
 func (c *client) Open() (net.Conn, error) {
 	if c.listener {
-		return c.multiplexer.Accept()
+		return c.multiplexer.AcceptStream(c.openCtx)
 	} else {
-		stream, err := c.multiplexer.OpenStream(context.Background())
+		stream, err := c.multiplexer.OpenStream(c.openCtx)
 		return stream, err
 	}
 }
 
 // Shutdown implements forwarding.Endpoint.Shutdown.
 func (c *client) Shutdown() error {
-	return c.multiplexer.Close()
+	c.cancelOpen()
+	c.openCtx, c.cancelOpen = context.WithCancel(context.Background())
+	return nil
 }
